@@ -29,7 +29,7 @@ bool Player::buyTower(int posX, int posY, int type)
                 m_money = m_money - m_towerTypes[type]->getCost();
                 m_towerSlots[posY][posX] = true;
                 Tower* towerType = m_towerTypes[type];
-                Tower* newTower = new Tower(towerType->getCost(), towerType->getTileNum(), towerType->getRange(), towerType->getShotDamage(), towerType->getFireRate(), towerType->getName(), towerType->getShotFilename());
+                Tower* newTower = new Tower(towerType->getCost(), towerType->getTileNum(), towerType->getRange(), towerType->getShotDamage(), towerType->getShotDelay(), towerType->getName(), towerType->getShotFilename());
                 newTower->setPos(posX * 32.f, posY * 32.f);
                 addTower(newTower);
             }

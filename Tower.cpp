@@ -1,6 +1,7 @@
 #include "Tower.h"
 
-Tower::Tower(int cost, int tileNum, int range, int shotDamage, int fireRate, std::string name, std::string filename)
+// Constructeur
+Tower::Tower(int cost, int tileNum, int range, int shotDamage, int shotDelay, std::string name, std::string filename)
 {
     m_currId = 0;
     int tileNumber = tileNum;
@@ -25,12 +26,13 @@ Tower::Tower(int cost, int tileNum, int range, int shotDamage, int fireRate, std
 
     m_cost = cost;
     m_name = name;
-    setFireRate(fireRate);
+    m_shotDelay = shotDelay;
     m_shotDamage = shotDamage;
     m_range = range;
     m_shotFilename = filename;
 }
 
+// NEEDS TO BE REMOVED
 Tower::Tower()
 {
     m_currId = 0;
@@ -63,7 +65,8 @@ Tower::~Tower()
 
 void Tower::fireShot(Monster* target)
 {
-    if(m_currRate == 0)
+    sf::Int32 msecElapsed = clock.getElapsedTime().asMilliseconds(); // On recupere le temps ecoule
+    if(msecElapsed >= m_shotDelay)
     {
         float x = m_sprite.getPosition().x + 24.f;
         float y = m_sprite.getPosition().y + 24.f;
@@ -79,11 +82,7 @@ void Tower::fireShot(Monster* target)
 
 
         addShot(shot);
-        m_currRate = m_fireRate;
-    }
-    else
-    {
-        m_currRate--;
+        clock.restart();
     }
 }
 
@@ -106,6 +105,6 @@ std::string Tower::toString()
         << "Cost         : " << getCost() << "\n"
         << "Range      : " << getRange() << "\n"
         << "Damage   : " << getShotDamage() << "\n"
-        << "Att.Speed : " << 60.f / getFireRate();
+        << "Att.Speed : " << 1000 / getShotDelay();
     return out.str();
 }

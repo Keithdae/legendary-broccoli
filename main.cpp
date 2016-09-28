@@ -43,10 +43,10 @@ int main()
     // Creation des tours
     std::vector<Tower*> towers;
     std::vector<Tower*> towerTypes;
-    // Cost | TileNumber | Range | ShotDamage | FireRate | Name
-    player.createTowerType(new Tower(75, 10, 150, 17, 55, "Pampletor","rc/textures/shot+pizza.png"));
-    player.createTowerType(new Tower(25, 11, 75, 5, 35, "Brocotorlee", "rc/textures/shot+pizza.png"));
-    player.createTowerType(new Tower(125, 13, 300, 4, 15, "Atatatatatator", "rc/textures/shot+atatatata.png"));
+    //                              Cost | TileNumber | Range | ShotDamage | ShotDelay | Name           |    Filename (Shot texture)
+    player.createTowerType(new Tower(75,    10,         150,        17,         900,     "Pampletor",        "rc/textures/shot+pizza.png"));
+    player.createTowerType(new Tower(25,    11,         75,         5,          600,     "Brocotorlee",      "rc/textures/shot+pizza.png"));
+    player.createTowerType(new Tower(125,   13,         300,        4,          250,     "Atatatatatator",   "rc/textures/shot+atatatata.png"));
 
     int chosenOne = 0;
     bool hasShot = false;
@@ -175,36 +175,45 @@ int main()
         window.clear();
 
 
-        if(state == Playing)
+        if(state == Playing) // Vague en cours
         {
+            // Affichage de la grille, de l'argent et des vies du joueur
             window.draw(grid);
             window.draw(textMoney);
             window.draw(textLife);
+
+            // Demande de faire apparaitre un monstre puis recuperation de la liste des monstres en jeu
             level.spawnMonster();
             monsters = level.getMonsters();
+
             for(unsigned int i=0; i < monsters.size(); i++)
             {
-                if(level.testCollision(monsters[i]))
+                if(level.testCollision(monsters[i])) // Fonction qui determine la direction que doit suivre le monstre
                 {
+                    // On deplace le monstre et on met a jour sa barre de vie puis on l'affiche
                     monsters[i]->move(monsters[i]->getVelocity().x,monsters[i]->getVelocity().y);
                     monsters[i]->update();
                     window.draw(*monsters[i]);
                 }
-                else
+                else // Indique de le monstre a atteint la base du joueur
                 {
-                    if(player.loseLife())
+                    if(player.loseLife()) // Test si le joueur meurt
                     {
                         state = GameOver;
                         level.gameOver();
                     }
+                    // On met a jour la vie du joueur
                     std::ostringstream temp2;
                     temp2 << "LIFE : " << player.getLife();
                     textLife.setString(temp2.str());
                 }
             }
+
+            // Recuperation de la liste des tours en jeu
             towers = player.getTowers();
             for(unsigned int i=0; i < towers.size(); i++)
             {
+                // Affichage des tours
                 window.draw(*towers[i]);
                 for(unsigned int j=0; j < monsters.size() && !hasShot; j++)
                 {
@@ -216,10 +225,10 @@ int main()
                         hasShot = true;
                     }
                 }
-                if(!hasShot)
+                /*if(!hasShot)
                 {
                     towers[i]->coolDown();
-                }
+                }*/
                 hasShot = false;
                 towers[i]->updateShots();
                 shots = towers[i]->getShots();
@@ -252,7 +261,7 @@ int main()
         {
             window.draw(textGameOver);
         }
-        else if(state == Waiting)
+        else if(state == Waiting) // En attente avant le lancement du jeu
         {
             window.draw(grid);
             towers = player.getTowers();
@@ -282,7 +291,7 @@ int main()
                 window.draw(desc);
             }
         }
-        else if(state == Buying) // Affichage de la grille et tours pendant le placement de la tour que l'on souhaite acheter
+        else if(state == Buying) // Affichage de la grille et des tours pendant le placement de la tour que l'on souhaite acheter
         {
             window.draw(grid);
             towers = player.getTowers();

@@ -12,7 +12,7 @@ Map::~Map()
 }
 
 
-
+// TO DO : IMPROVE WITH PATHFINDING INSTEAD OF THIS ABOMINATION
 bool Map::testCollision(Monster *mob)
 {
     float x = mob->getPos().x;
@@ -64,12 +64,12 @@ void Map::spawnMonster()
     if(!isWaveOver())
     {
         sf::Int32 msecElapsed = clock.getElapsedTime().asMilliseconds(); // On recupere le temps ecoule
-        if(msecElapsed > m_timer) // Si on a depasse la limite de temps de spawn
+        if(msecElapsed >= m_timer) // Si on a depasse la limite de temps de spawn
         {
             Monster *mob = m_spawns.back();
             m_spawns.pop_back();
-            addMonster(mob);
-            std::cout << clock.restart().asSeconds() << std::endl;
+            addMonster(mob); // Ajoute a la liste publique
+            clock.restart(); // Relance l'horloge
         }
     }
 }

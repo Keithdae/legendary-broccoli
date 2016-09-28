@@ -9,7 +9,7 @@
 class Tower : public sf::Drawable, public sf::Transformable
 {
     public:
-        Tower(int cost, int tileNum, int range, int shotDamage, int fireRate, std::string name, std::string filename);
+        Tower(int cost, int tileNum, int range, int shotDamage, int shotDelay, std::string name, std::string filename);
         Tower();
         virtual ~Tower();
 
@@ -28,9 +28,7 @@ class Tower : public sf::Drawable, public sf::Transformable
 
         inline bool operator== (const Tower &tower) const {return this->getId() == tower.getId();};
 
-        // Permet de définir le taux de fireRate
-        void setFireRate(int f) {m_fireRate = f; m_currRate = f;};
-        int getFireRate() const {return m_fireRate;};
+        int getShotDelay() const {return m_shotDelay;};
 
         void setShotDamage(int sd){m_shotDamage = sd;};
         int getShotDamage() const {return m_shotDamage;};
@@ -41,7 +39,6 @@ class Tower : public sf::Drawable, public sf::Transformable
         void deleteShot(Shot* shot){m_shots.erase(std::remove(m_shots.begin(), m_shots.end(), shot), m_shots.end());};
 
         void fireShot(Monster* target);
-        void coolDown(){if(m_currRate > 0){m_currRate--;}};
 
         void updateShots();
 
@@ -80,9 +77,10 @@ class Tower : public sf::Drawable, public sf::Transformable
 
         std::vector<Shot*> m_shots;
 
-        int m_fireRate;
-        int m_currRate;
         int m_shotDamage;
+
+        int m_shotDelay;
+        sf::Clock clock;
 
         int m_currId;
 
