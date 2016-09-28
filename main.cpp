@@ -49,7 +49,6 @@ int main()
     player.createTowerType(new Tower(125,   13,         300,        4,          250,     "Atatatatatator",   "rc/textures/shot+atatatata.png"));
 
     int chosenOne = 0;
-    bool hasShot = false;
 
     // Creation de la liste des positions de tiles de monstre dans le tileset
     std::vector<int> tilesMonster;
@@ -215,33 +214,30 @@ int main()
             {
                 // Affichage des tours
                 window.draw(*towers[i]);
-                for(unsigned int j=0; j < monsters.size() && !hasShot; j++)
+
+                for(unsigned int j=0; j < monsters.size() && towers[i]->isReadyToFire(); j++)
                 {
+                    // On recupere le centre du monstre
                     float xTarget = monsters[j]->getPos().x + 16.f;
                     float yTarget = monsters[j]->getPos().y + 16.f;
-                    if(towers[i]->isInRange(xTarget, yTarget))
+
+                    if(towers[i]->isInRange(xTarget, yTarget)) // Si il est a portee, on tire
                     {
                         towers[i]->fireShot(monsters[j]);
-                        hasShot = true;
                     }
                 }
-                /*if(!hasShot)
-                {
-                    towers[i]->coolDown();
-                }*/
-                hasShot = false;
-                towers[i]->updateShots();
+                towers[i]->updateShots(); // On met a jour les tirs
                 shots = towers[i]->getShots();
-                for(unsigned int k=0; k < shots.size(); k++)
+                for(unsigned int k=0; k < shots.size(); k++) // On regarde si les tirs rentrent en collision avec les monstres
                 {
                     sf::FloatRect shotRect = shots[k]->getRect();
                     for(unsigned int h=0; h < monsters.size() && !collision; h++)
                     {
                         sf::FloatRect mobRect = monsters[h]->getRect();
-                        if(shotRect.intersects(mobRect))
+                        if(shotRect.intersects(mobRect)) // Si il y a collision, on inflige les degats
                         {
                             collision = true;
-                            if(monsters[h]->takeDamage(shots[k]->getDamage()))
+                            if(monsters[h]->takeDamage(shots[k]->getDamage())) // Si le monstre meurt
                             {
                                 player.earnMoney(monsters[h]->getReward());
                                 std::ostringstream newOut;
@@ -250,7 +246,7 @@ int main()
                                 monsters[h]->setDead();
                                 level.deleteMonster(monsters[h]);
                             }
-                            towers[i]->deleteShot(shots[k]);
+                            towers[i]->deleteShot(shots[k]); // On detruit le tir
                         }
                     }
                     collision = false;

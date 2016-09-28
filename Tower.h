@@ -47,6 +47,8 @@ class Tower : public sf::Drawable, public sf::Transformable
 
         bool isInRange (float x, float y) const {return (m_sprite.getPosition().x - x) * (m_sprite.getPosition().x - x) + (m_sprite.getPosition().y - y) * (m_sprite.getPosition().y - y) < m_range * m_range;};
 
+        bool isReadyToFire(){return clock.getElapsedTime().asMilliseconds() >= m_shotDelay;};
+
         std::string toString();
 
         std::string getShotFilename() const {return m_shotFilename;};

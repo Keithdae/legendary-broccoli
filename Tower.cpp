@@ -65,8 +65,7 @@ Tower::~Tower()
 
 void Tower::fireShot(Monster* target)
 {
-    sf::Int32 msecElapsed = clock.getElapsedTime().asMilliseconds(); // On recupere le temps ecoule
-    if(msecElapsed >= m_shotDelay)
+    if(isReadyToFire())
     {
         float x = m_sprite.getPosition().x + 24.f;
         float y = m_sprite.getPosition().y + 24.f;
