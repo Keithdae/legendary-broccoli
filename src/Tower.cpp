@@ -67,8 +67,8 @@ void Tower::fireShot(Monster* target)
 {
     if(isReadyToFire())
     {
-        float x = m_sprite.getPosition().x + 24.f;
-        float y = m_sprite.getPosition().y + 24.f;
+        float x = m_sprite.getPosition().x + 16.f;
+        float y = m_sprite.getPosition().y + 16.f;
 
         float ang = atan2f(target->getPos().y + 16.f - y, target->getPos().x + 16.f - x);
 
@@ -96,6 +96,17 @@ void Tower::updateShots()
         }
     }
 }
+
+void Tower::deleteShot(Shot* shot)
+{
+    m_shots.erase(std::remove(m_shots.begin(), m_shots.end(), shot), m_shots.end());
+}
+
+void Tower::setShotHasHit(Shot* shot)
+{
+    shot->setHasHit(true);
+}
+
 
 std::string Tower::toString()
 {

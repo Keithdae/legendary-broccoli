@@ -26,6 +26,8 @@ class Shot : public sf::Drawable, public sf::Transformable
         void setRotato(float ang) {m_sprite.setRotation(ang * 57.2957795131);};
 
         void setTarget(Monster* target){m_target = target;};
+        void setHasHit(bool hit){m_hasHit = hit;};
+        bool getHasHit(){return m_hasHit;};
 
         sf::FloatRect getRect();
 
@@ -57,6 +59,9 @@ class Shot : public sf::Drawable, public sf::Transformable
 
         int m_id;
 
+        sf::Clock m_clock;
+        int m_minDisplayTime;
+        bool m_hasHit;
 };
 
 #endif // SHOT_H

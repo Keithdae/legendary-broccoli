@@ -78,8 +78,8 @@ int main()
     sf::Text textGameOver;
     textGameOver.setFont(font);
     textGameOver.setCharacterSize(48);
-    textGameOver.setString("G4M3 0V3R");
-    textGameOver.setColor(sf::Color::Red);
+    textGameOver.setString("GAME OVER");
+    textGameOver.setFillColor(sf::Color::White);
     textGameOver.setPosition(292, 216);
 
     // Creation du texte d'attente
@@ -87,7 +87,7 @@ int main()
     textWaiting.setFont(font);
     textWaiting.setCharacterSize(24);
     textWaiting.setString("Waiting time, you can build towers \nPress space to start the wave");
-    textWaiting.setColor(sf::Color::White);
+    textWaiting.setFillColor(sf::Color::White);
     textWaiting.setPosition(240, 0);
 
     // Creation de l'affichage de l'argent du joueur
@@ -96,7 +96,7 @@ int main()
     textMoney.setFont(font);
     textMoney.setCharacterSize(24);
     textMoney.setString(out.str());
-    textMoney.setColor(sf::Color::White);
+    textMoney.setFillColor(sf::Color::White);
     textMoney.setPosition(10, 0);
 
     // Creation du texte pour les vies du joueur
@@ -106,7 +106,7 @@ int main()
     textLife.setFont(font);
     textLife.setCharacterSize(22);
     textLife.setString(out2.str());
-    textLife.setColor(sf::Color::White);
+    textLife.setFillColor(sf::Color::White);
     textLife.setPosition(10, 24);
 
 
@@ -233,20 +233,23 @@ int main()
                     sf::FloatRect shotRect = shots[k]->getRect();
                     for(unsigned int h=0; h < monsters.size() && !collision; h++)
                     {
-                        sf::FloatRect mobRect = monsters[h]->getRect();
-                        if(shotRect.intersects(mobRect)) // Si il y a collision, on inflige les degats
+                        if(!shots[k]->getHasHit())
                         {
-                            collision = true;
-                            if(monsters[h]->takeDamage(shots[k]->getDamage())) // Si le monstre meurt
+                            sf::FloatRect mobRect = monsters[h]->getRect();
+                            if(shotRect.intersects(mobRect)) // Si il y a collision, on inflige les degats
                             {
-                                player.earnMoney(monsters[h]->getReward());
-                                std::ostringstream newOut;
-                                newOut << "Money : " << player.getMoney();
-                                textMoney.setString(newOut.str());
-                                monsters[h]->setDead();
-                                level.deleteMonster(monsters[h]);
+                                collision = true;
+                                if(monsters[h]->takeDamage(shots[k]->getDamage())) // Si le monstre meurt
+                                {
+                                    player.earnMoney(monsters[h]->getReward());
+                                    std::ostringstream newOut;
+                                    newOut << "Money : " << player.getMoney();
+                                    textMoney.setString(newOut.str());
+                                    monsters[h]->setDead();
+                                    level.deleteMonster(monsters[h]);
+                                }
+                                towers[i]->setShotHasHit(shots[k]); // On detruit le tir
                             }
-                            towers[i]->deleteShot(shots[k]); // On detruit le tir
                         }
                     }
                     collision = false;

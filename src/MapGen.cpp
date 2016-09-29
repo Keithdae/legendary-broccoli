@@ -62,7 +62,7 @@ void MapGen::generatePath(std::vector< std::vector<int> > &map)
         }
     }
 
-    for(int i=1; i<7;i++)
+   for(int i=1; i<7;i++)
         map[i][4] = 2;
 
     map[13][23] = 2;

@@ -36,7 +36,8 @@ class Tower : public sf::Drawable, public sf::Transformable
         std::vector<Shot*> getShots() const {return m_shots;};
 
         void addShot(Shot* shot){m_shots.push_back(shot); shot->setId(m_currId); m_currId++;};
-        void deleteShot(Shot* shot){m_shots.erase(std::remove(m_shots.begin(), m_shots.end(), shot), m_shots.end());};
+        void deleteShot(Shot* shot);
+        void setShotHasHit(Shot* shot);
 
         void fireShot(Monster* target);
 
