@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="G:/Keithdae/Projets/TowerDefenseToast2/" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-d" />
@@ -30,6 +31,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="C:/Users/Matthieu/MyProjects/TowerDefenseToast2/" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -43,20 +45,20 @@
 		<Linker>
 			<Add directory="G:/Keithdae/Libs/SFML-2.4.0/lib" />
 		</Linker>
-		<Unit filename="Map.cpp" />
-		<Unit filename="Map.h" />
-		<Unit filename="MapGen.cpp" />
-		<Unit filename="MapGen.h" />
-		<Unit filename="Monster.cpp" />
-		<Unit filename="Monster.h" />
-		<Unit filename="Player.cpp" />
-		<Unit filename="Player.h" />
-		<Unit filename="Shot.cpp" />
-		<Unit filename="Shot.h" />
-		<Unit filename="TileMap.h" />
-		<Unit filename="Tower.cpp" />
-		<Unit filename="Tower.h" />
-		<Unit filename="main.cpp" />
+		<Unit filename="include/Map.h" />
+		<Unit filename="include/MapGen.h" />
+		<Unit filename="include/Monster.h" />
+		<Unit filename="include/Player.h" />
+		<Unit filename="include/Shot.h" />
+		<Unit filename="include/TileMap.h" />
+		<Unit filename="include/Tower.h" />
+		<Unit filename="src/Map.cpp" />
+		<Unit filename="src/MapGen.cpp" />
+		<Unit filename="src/Monster.cpp" />
+		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/Shot.cpp" />
+		<Unit filename="src/Tower.cpp" />
+		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
